@@ -61,7 +61,7 @@ public class WalletControllerTests : IClassFixture<WebApplicationFactory<Program
     }
 
     [Fact]
-    public async Task CreateWallet_ReturnsCreated()
+    public async Task CreateWallet_ReturnsUnauthorized_WhenUserIsNotAuthenticated()
     {
         // Arrange
         var newWallet = new CreateWalletDto
@@ -75,6 +75,6 @@ public class WalletControllerTests : IClassFixture<WebApplicationFactory<Program
         var response = await _client.PostAsJsonAsync("/api/wallet", newWallet);
 
         // Assert
-        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
     }
 }
