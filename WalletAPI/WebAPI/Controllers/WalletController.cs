@@ -1,5 +1,6 @@
 ﻿using Application.Dtos;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -20,6 +21,7 @@ namespace WebAPI.Controllers
         /// Obtiene todas las billeteras existentes.
         /// </summary>
         /// <returns>Lista de billeteras.</returns>
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WalletDto>>> GetWallets()
         {
@@ -31,6 +33,7 @@ namespace WebAPI.Controllers
         /// Obtiene una billetera específica por su Id.
         /// </summary>
         /// <param name="id">Id de la billetera.</param>
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<WalletDto>> GetWallet(int id)
         {
@@ -46,12 +49,18 @@ namespace WebAPI.Controllers
         /// Crea una nueva billetera.
         /// </summary>
         /// <param name="walletDto">Datos necesarios para la creación.</param>
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<WalletDto>> CreateWallet(CreateWalletDto walletDto)
         {
             var result = await _walletService.CreateWalletAsync(walletDto);
             if (!result.Success)
                 return BadRequest(new { result.Message });
+
+            if (result.Wallet == null)
+            {
+                return BadRequest(new { Message = "Error al crear la billetera." });
+            }
 
             return CreatedAtAction(nameof(GetWallet), new { id = result.Wallet.Id }, result.Wallet);
         }
@@ -61,6 +70,7 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <param name="id">Id de la billetera a actualizar.</param>
         /// <param name="walletDto">Nuevo nombre para la billetera.</param>
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateWallet(int id, UpdateWalletDto walletDto)
         {
@@ -75,6 +85,7 @@ namespace WebAPI.Controllers
         /// Elimina una billetera existente.
         /// </summary>
         /// <param name="id">Id de la billetera a eliminar.</param>
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWallet(int id)
         {
@@ -90,6 +101,7 @@ namespace WebAPI.Controllers
         /// Realiza una transferencia entre dos billeteras.
         /// </summary>
         /// <param name="transferDto">Datos para realizar la transferencia.</param>
+        [Authorize]
         [HttpPost("transfer")]
         public async Task<IActionResult> Transfer(TransferDto transferDto)
         {

@@ -2,7 +2,11 @@ using Application.Interfaces;
 using Application.Services;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +20,8 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 // Registro de servicios
 builder.Services.AddScoped<IWalletService, WalletService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Habilita CORS (para solucionar el error)
 builder.Services.AddCors(options =>
@@ -28,6 +34,32 @@ builder.Services.AddCors(options =>
                   .AllowAnyHeader();
         });
 });
+
+
+var secretKey = builder.Configuration["Jwt:SecretKey"];
+if (string.IsNullOrEmpty(secretKey))
+{
+    throw new Exception("La clave JWT no está definida en appsettings.json");
+}
+
+var key = Encoding.UTF8.GetBytes(secretKey);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(key)
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 // soporte para Controllers
 builder.Services.AddControllers();

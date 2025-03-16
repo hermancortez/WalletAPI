@@ -9,6 +9,8 @@ namespace Infrastructure.Data
 
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<LoginHistory> LoginHistories { get; set; }
+        public DbSet<User> Users { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,6 +28,8 @@ namespace Infrastructure.Data
                 entity.Property(t => t.Amount)
                       .HasPrecision(18, 2); // Precisión adecuada para dinero
             });
+
+            modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
         }
     }
 }
