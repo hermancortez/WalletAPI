@@ -45,12 +45,15 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();  // Esto mostrará los errores en detalle en Swagger y Postman
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Habilita logs detallados para capturar errores en pruebas
+app.UseDeveloperExceptionPage();
 
+app.UseHttpsRedirection();
 app.UseCors("AllowAllOrigins");
 
 // Mapea los controladores
@@ -58,3 +61,4 @@ app.MapControllers();
 
 app.Run();
 
+public partial class Program { }

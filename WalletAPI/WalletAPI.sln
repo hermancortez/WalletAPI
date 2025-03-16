@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{1BFCA143-4BFE-4911-ABDC-3F98A99BB93B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{62BDD4E6-BBC9-4D33-BBF0-C49A86D24D2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletApi.UnitTests", "tests\WalletApi.UnitTests\WalletApi.UnitTests.csproj", "{16A9BA4C-5560-4641-8DFA-8011E3F6A1A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletApi.IntegrationTests", "tests\WalletApi.IntegrationTests\WalletApi.IntegrationTests.csproj", "{FFFC5371-4124-4ED4-8AF8-BF0D1A7F729E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +39,20 @@ Global
 		{1BFCA143-4BFE-4911-ABDC-3F98A99BB93B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BFCA143-4BFE-4911-ABDC-3F98A99BB93B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BFCA143-4BFE-4911-ABDC-3F98A99BB93B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16A9BA4C-5560-4641-8DFA-8011E3F6A1A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16A9BA4C-5560-4641-8DFA-8011E3F6A1A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16A9BA4C-5560-4641-8DFA-8011E3F6A1A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16A9BA4C-5560-4641-8DFA-8011E3F6A1A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFFC5371-4124-4ED4-8AF8-BF0D1A7F729E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFFC5371-4124-4ED4-8AF8-BF0D1A7F729E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFFC5371-4124-4ED4-8AF8-BF0D1A7F729E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFFC5371-4124-4ED4-8AF8-BF0D1A7F729E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{16A9BA4C-5560-4641-8DFA-8011E3F6A1A0} = {62BDD4E6-BBC9-4D33-BBF0-C49A86D24D2A}
+		{FFFC5371-4124-4ED4-8AF8-BF0D1A7F729E} = {62BDD4E6-BBC9-4D33-BBF0-C49A86D24D2A}
 	EndGlobalSection
 EndGlobal
