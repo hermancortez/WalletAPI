@@ -21,7 +21,6 @@ namespace WebAPI.Controllers
         /// Obtiene todas las billeteras existentes.
         /// </summary>
         /// <returns>Lista de billeteras.</returns>
-        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WalletDto>>> GetWallets()
         {
@@ -33,7 +32,6 @@ namespace WebAPI.Controllers
         /// Obtiene una billetera específica por su Id.
         /// </summary>
         /// <param name="id">Id de la billetera.</param>
-        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<WalletDto>> GetWallet(int id)
         {
@@ -119,6 +117,18 @@ namespace WebAPI.Controllers
         [HttpGet("{walletId}/transactions")]
         public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactions(int walletId, [FromQuery] DateTime? fromDate, [FromQuery] DateTime? toDate, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
+            // Si `fromDate` tiene valor, ajustarlo al inicio del día (00:00:00)
+            if (fromDate.HasValue)
+            {
+                fromDate = fromDate.Value.Date; // Elimina la hora, dejando solo la fecha
+            }
+
+            // Si `toDate` tiene valor, ajustarlo al final del día (23:59:59)
+            if (toDate.HasValue)
+            {
+                toDate = toDate.Value.Date.AddDays(1).AddSeconds(-1); // Último segundo del día
+            }
+
             var transactions = await _walletService.GetTransactionsByWalletAsync(walletId, fromDate, toDate, page, pageSize);
             return Ok(transactions);
         }
